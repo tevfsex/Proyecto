@@ -165,21 +165,21 @@
 </head>
 <body>
 
-    <button class="menu-btn" onclick="toggleMenu()">Menú</button>
-    <button class="cart-btn" onclick="goToCart()">🛒 <span id="cart-count" class="cart-badge">0</span></button>
+    <button class="menu-btn" onclick="toggleMenu()">MenÃº</button>
+    <button class="cart-btn" onclick="goToCart()">ðŸ›’ <span id="cart-count" class="cart-badge">0</span></button>
 
     <div class="menu" id="menu">
         <a href="carrito.html">
-            <span>🛒</span> Carrito
+            <span>ðŸ›’</span> Carrito
         </a>
         <a href="#personalizadas">
-            <span>❤️</span> Personalizadas
+            <span>â¤ï¸</span> Personalizadas
         </a>
         <a href="#perfil">
-            <span>👤</span> Perfil
+            <span>ðŸ‘¤</span> Perfil
         </a>
         <a href="#favoritos">
-            <span>⭐</span> Favoritos
+            <span>â­</span> Favoritos
         </a>
     </div>
 
@@ -188,54 +188,42 @@
             <h1>Venta de Camisas Personalizadas</h1>
         </header>
         <h2>Camisas Personalizadas</h2>
-        <div class="product" id="product-1">
+        <div class="product">
             <img src="https://raw.githubusercontent.com/tevfsex/Proyecto/refs/heads/main/Blanca002_001_1.jpg" alt="Camisa Blanca Personalizada">
             <h3>Camisa Blanca Personalizada</h3>
-            <p>¡Elige tu diseño! Personaliza con corazones, nombres y más.</p>
+            <p>Â¡Elige tu diseÃ±o! Personaliza con corazones, nombres y mÃ¡s.</p>
             <div class="product-buttons">
                 <button onclick="window.location.href='pagina_de_personalizacion.html'">Personalizar Ahora</button>
-                <button onclick="addToCart('Camisa Blanca Personalizada')">Añadir al Carrito</button>
+                <button onclick="addToCart()">AÃ±adir al Carrito</button>
             </div>
         </div>
-        <div class="product" id="product-2">
+        <div class="product">
             <img src="https://raw.githubusercontent.com/tevfsex/Proyecto/refs/heads/main/images%20(23)%20(29).jpeg" alt="Camisa Negra Personalizada">
             <h3>Camisa Negra Personalizada</h3>
-            <p>¡Estilo único! Personaliza con tu diseño favorito.</p>
+            <p>Â¡Estilo Ãºnico! Personaliza con tu diseÃ±o favorito.</p>
             <div class="product-buttons">
                 <button onclick="window.location.href='pagina_de_personalizacion.html'">Personalizar Ahora</button>
-                <button onclick="addToCart('Camisa Negra Personalizada')">Añadir al Carrito</button>
+                <button onclick="addToCart()">AÃ±adir al Carrito</button>
             </div>
         </div>
     </section>
 
     <script>
         let cartCount = 0;
-        let cartItems = [];
 
         function toggleMenu() {
             const menu = document.getElementById("menu");
             menu.classList.toggle("active");
         }
 
-        function addToCart(productName) {
+        function addToCart() {
             cartCount++;
-            cartItems.push(productName);
             document.getElementById("cart-count").textContent = cartCount;
-            localStorage.setItem('cartItems', JSON.stringify(cartItems));  // Save cart items in local storage
         }
 
         function goToCart() {
             window.location.href = "carrito.html";
         }
-
-        // On page load, check local storage for cart items and update count
-        window.onload = function() {
-            const storedCartItems = JSON.parse(localStorage.getItem('cartItems'));
-            if (storedCartItems) {
-                cartCount = storedCartItems.length;
-                document.getElementById("cart-count").textContent = cartCount;
-            }
-        };
 
         window.addEventListener("click", function(event) {
             const menu = document.getElementById("menu");
