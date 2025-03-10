@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carrito</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: #333;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+        h1 {
+            margin: 0;
+        }
+        /* Botón de menú */
+        .menu-btn {
+            background-color: #333;
+            color: white;
+            padding: 10px;
+            position: fixed;
+            top: 10px;
+            left: 10px;
+            cursor: pointer;
+            z-index: 1000;
+            border: none;
+            font-size: 18px;
+        }
+        .menu-btn:hover {
+            background-color: #ddd;
+            color: black;
+        }
+
+        /* Menú desplegable */
+        .menu {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 200px;
+            height: 100%;
+            background-color: #333;
+            z-index: 999;
+            padding-top: 60px;
+        }
+        .menu a {
+            color: white;
+            padding: 14px;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            font-size: 18px;
+        }
+        .menu a span {
+            margin-right: 10px;
+        }
+        .menu a:hover {
+            background-color: #ddd;
+            color: black;
+        }
+        .menu.active {
+            display: block;
+        }
+
+        .cart-container {
+            margin: 20px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+        }
+        .cart-items {
+            margin-bottom: 20px;
+        }
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #ddd;
+            padding: 10px 0;
+        }
+        .cart-item img {
+            width: 50px;
+            height: 50px;
+            border-radius: 4px;
+        }
+        .cart-item-info {
+            flex-grow: 1;
+            margin-left: 15px;
+        }
+        .cart-item h3 {
+            margin: 0;
+        }
+        .cart-item p {
+            margin: 5px 0;
+            color: #777;
+        }
+        .cart-item button {
+            background-color: #f44336;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+        .cart-item button:hover {
+            background-color: #d32f2f;
+        }
+        .cart-total {
+            display: flex;
+            justify-content: space-between;
+            padding: 15px 0;
+            border-top: 2px solid #ddd;
+            font-size: 18px;
+        }
+        .checkout-btn {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            cursor: pointer;
+            border-radius: 4px;
+            text-align: center;
+        }
+        .checkout-btn:hover {
+            background-color: #45a049;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .cart-item img {
+                width: 40px;
+                height: 40px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Botón de menú -->
+    <button class="menu-btn" onclick="toggleMenu()">Menú</button>
+
+    <!-- Menú desplegable -->
+    <div class="menu" id="menu">
+        <a href="carrito.html">
+            <span>🛒</span> Carrito
+        </a>
+        <a href="https://tevfsex.github.io/Venta/#carrito">
+            <span>👕</span> Personalizadas
+        </a>
+        <a href="#perfil">
+            <span>👤</span> Perfil
+        </a>
+        <a href="#favoritos">
+            <span>⭐</span> Favoritos
+        </a>
+    </div>
+
+    <header>
+        <h1>Carrito</h1>
+    </header>
+
+    <div class="cart-container">
+        <h2>Productos en tu carrito</h2>
+
+        <!-- Lista de productos en el carrito -->
+        <div class="cart-items" id="cart-items">
+            <p id="empty-cart">Tu carrito está vacío.</p>
+        </div>
+
+        <!-- Total y botón de checkout -->
+        <div class="cart-total">
+            <p>Total:</p>
+            <p id="cart-total">$0.00</p>
+        </div>
+        <button class="checkout-btn" onclick="checkout()">Proceder al pago</button>
+    </div>
+
+    <script>
+        let cart = [];
+
+        // Cargar carrito desde localStorage
+        function loadCart() {
+            cart = JSON.parse(localStorage.getItem("cart")) || [];
+            updateCartUI();
+        }
+
+        // Actualizar la interfaz del carrito
+        function updateCartUI() {
+            const cartItems = document.getElementById("cart-items");
+            const emptyCartText = document.getElementById("empty-cart");
+            const cartTotal = document.getElementById("cart-total");
+
+            cartItems.innerHTML = "";
+            let total = 0;
+
+            if (cart.length === 0) {
+                emptyCartText.style.display = "block";
+                cartTotal.textContent = "$0.00";
+            } else {
+                emptyCartText.style.display = "none";
+                cart.forEach((item, index) => {
+                    total += item.price;
+
+                    const itemElement = document.createElement("div");
+                    itemElement.classList.add("cart-item");
+                    itemElement.innerHTML = `
+                        <img src="${item.image}" alt="${item.name}">
+                        <div class="cart-item-info">
+                            <h3>${item.name}</h3>
+                            <p>${item.description}</p>
+                            <p>Cantidad: ${item.quantity}</p>
+                        </div>
+                        <button onclick="removeItem(${index})">Eliminar</button>
+                    `;
+                    cartItems.appendChild(itemElement);
+                });
+                cartTotal.textContent = `$${total.toFixed(2)}`;
+            }
+        }
+
+        // Eliminar producto del carrito
+        function removeItem(index) {
+            cart.splice(index, 1);
+            localStorage.setItem("cart", JSON.stringify(cart));
+            updateCartUI();
+        }
+
+        // Proceder al pago (simulación)
+        function checkout() {
+            alert("Ir a la pasarela de pago (Simulación)");
+        }
+
+        // Mostrar menú
+        function toggleMenu() {
+            document.getElementById("menu").classList.toggle("active");
+        }
+
+        // Cerrar el menú si se hace clic fuera de él
+        document.addEventListener("click", function(event) {
+            let menu = document.getElementById("menu");
+            let menuBtn = document.querySelector(".menu-btn");
+
+            if (!menu.contains(event.target) && !menuBtn.contains(event.target)) {
+                menu.classList.remove("active");
+            }
+        });
+
+        loadCart();
+    </script>
+
+</body>
+</html>
