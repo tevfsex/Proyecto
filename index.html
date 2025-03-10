@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Venta de Camisas Personalizadas</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: #333;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+        h1 {
+            margin: 0;
+        }
+        .menu-btn {
+            background-color: #333;
+            color: white;
+            padding: 10px;
+            position: fixed;
+            top: 10px;
+            left: 10px;
+            cursor: pointer;
+            z-index: 1000;
+            border: none;
+            font-size: 18px;
+        }
+        .menu-btn:hover {
+            background-color: #ddd;
+            color: black;
+        }
+
+        .cart-btn {
+            background-color: #333;
+            color: white;
+            padding: 10px;
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            cursor: pointer;
+            z-index: 1000;
+            border: none;
+            font-size: 18px;
+        }
+        .cart-btn:hover {
+            background-color: #ddd;
+            color: black;
+        }
+
+        .menu {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 200px;
+            height: 100%;
+            background-color: #333;
+            z-index: 999;
+            padding-top: 60px;
+            box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+        }
+        .menu a {
+            color: white;
+            padding: 14px;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            font-size: 18px;
+        }
+        .menu a span {
+            margin-right: 10px;
+        }
+        .menu a:hover {
+            background-color: #ddd;
+            color: black;
+        }
+        .menu.active {
+            display: block;
+        }
+
+        section {
+            padding: 20px;
+            margin: 10px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin-top: 50px;
+        }
+        .product {
+            display: inline-block;
+            width: 48%;
+            margin: 10px;
+            text-align: center;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+        .product img {
+            width: 100%;
+            height: auto;
+            border-radius: 8px 8px 0 0;
+        }
+        .product h3 {
+            color: #333;
+            padding: 10px 0;
+            margin: 0;
+        }
+        .product p {
+            color: #777;
+            padding: 0 10px;
+        }
+
+        .product-buttons {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px;
+        }
+
+        .product-buttons button {
+            width: 48%;
+            background-color: #333;
+            color: white;
+            border: none;
+            padding: 10px;
+            cursor: pointer;
+            border-radius: 8px;
+        }
+
+        .product-buttons button:hover {
+            background-color: #ddd;
+            color: black;
+        }
+
+        .cart-badge {
+            background-color: red;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 50%;
+            font-size: 16px;
+            position: absolute;
+            top: 10px;
+            right: 35px;
+        }
+
+        @media (max-width: 768px) {
+            .product {
+                width: 48%;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .product {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Botón de menú -->
+    <button class="menu-btn" onclick="toggleMenu()">Menú</button>
+
+    <!-- Botón de carrito -->
+    <button class="cart-btn" onclick="goToCart()">🛒 <span id="cart-count" class="cart-badge">0</span></button>
+
+    <!-- Menú desplegable -->
+    <div class="menu" id="menu">
+        <a href="#carrito">
+            <span>🛒</span> Carrito
+        </a>
+        <a href="#personalizadas">
+            <span>❤️</span> Personalizadas
+        </a>
+        <a href="#perfil">
+            <span>👤</span> Perfil
+        </a>
+        <a href="#favoritos">
+            <span>⭐</span> Favoritos
+        </a>
+    </div>
+
+    <!-- Sección de productos -->
+    <section id="inicio">
+        <header>
+            <h1>Venta de Camisas Personalizadas</h1>
+        </header>
+        <h2>Camisas Personalizadas</h2>
+        <div class="product">
+            <img src="https://raw.githubusercontent.com/tevfsex/Proyecto/refs/heads/main/Blanca002_001_1.jpg" alt="Camisa Blanca Personalizada">
+            <h3>Camisa Blanca Personalizada</h3>
+            <p>¡Elige tu diseño! Personaliza con corazones, nombres y más.</p>
+            <div class="product-buttons">
+                <button onclick="window.location.href='pagina_de_personalizacion.html'">Personalizar Ahora</button>
+                <button onclick="addToCart()">Añadir al Carrito</button>
+            </div>
+        </div>
+        <div class="product">
+            <img src="https://raw.githubusercontent.com/tevfsex/Proyecto/refs/heads/main/images%20(23)%20(29).jpeg" alt="Camisa Negra Personalizada">
+            <h3>Camisa Negra Personalizada</h3>
+            <p>¡Estilo único! Personaliza con tu diseño favorito.</p>
+            <div class="product-buttons">
+                <button onclick="window.location.href='pagina_de_personalizacion.html'">Personalizar Ahora</button>
+                <button onclick="addToCart()">Añadir al Carrito</button>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        let cartCount = 0;
+
+        function toggleMenu() {
+            const menu = document.getElementById("menu");
+            menu.classList.toggle("active");
+        }
+
+        function addToCart() {
+            cartCount++;
+            document.getElementById("cart-count").textContent = cartCount;
+        }
+
+        function goToCart() {
+            window.location.href = "#carrito";  
+        }
+
+        window.addEventListener("click", function(event) {
+            const menu = document.getElementById("menu");
+            const menuButton = document.querySelector(".menu-btn");
+            const cartButton = document.querySelector(".cart-btn");
+
+            if (!menu.contains(event.target) && !menuButton.contains(event.target) && !cartButton.contains(event.target)) {
+                menu.classList.remove("active");
+            }
+        });
+    </script>
+
+</body>
+</html>
