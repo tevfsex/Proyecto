@@ -188,42 +188,54 @@
             <h1>Venta de Camisas Personalizadas</h1>
         </header>
         <h2>Camisas Personalizadas</h2>
-        <div class="product">
+        <div class="product" id="product-1">
             <img src="https://raw.githubusercontent.com/tevfsex/Proyecto/refs/heads/main/Blanca002_001_1.jpg" alt="Camisa Blanca Personalizada">
             <h3>Camisa Blanca Personalizada</h3>
             <p>¡Elige tu diseño! Personaliza con corazones, nombres y más.</p>
             <div class="product-buttons">
                 <button onclick="window.location.href='pagina_de_personalizacion.html'">Personalizar Ahora</button>
-                <button onclick="addToCart()">Añadir al Carrito</button>
+                <button onclick="addToCart('Camisa Blanca Personalizada')">Añadir al Carrito</button>
             </div>
         </div>
-        <div class="product">
+        <div class="product" id="product-2">
             <img src="https://raw.githubusercontent.com/tevfsex/Proyecto/refs/heads/main/images%20(23)%20(29).jpeg" alt="Camisa Negra Personalizada">
             <h3>Camisa Negra Personalizada</h3>
             <p>¡Estilo único! Personaliza con tu diseño favorito.</p>
             <div class="product-buttons">
                 <button onclick="window.location.href='pagina_de_personalizacion.html'">Personalizar Ahora</button>
-                <button onclick="addToCart()">Añadir al Carrito</button>
+                <button onclick="addToCart('Camisa Negra Personalizada')">Añadir al Carrito</button>
             </div>
         </div>
     </section>
 
     <script>
         let cartCount = 0;
+        let cartItems = [];
 
         function toggleMenu() {
             const menu = document.getElementById("menu");
             menu.classList.toggle("active");
         }
 
-        function addToCart() {
+        function addToCart(productName) {
             cartCount++;
+            cartItems.push(productName);
             document.getElementById("cart-count").textContent = cartCount;
+            localStorage.setItem('cartItems', JSON.stringify(cartItems));  // Save cart items in local storage
         }
 
         function goToCart() {
             window.location.href = "carrito.html";
         }
+
+        // On page load, check local storage for cart items and update count
+        window.onload = function() {
+            const storedCartItems = JSON.parse(localStorage.getItem('cartItems'));
+            if (storedCartItems) {
+                cartCount = storedCartItems.length;
+                document.getElementById("cart-count").textContent = cartCount;
+            }
+        };
 
         window.addEventListener("click", function(event) {
             const menu = document.getElementById("menu");
