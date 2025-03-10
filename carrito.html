@@ -5,28 +5,106 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Venta de Camisas Personalizadas</title>
     <style>
-        /* El CSS sigue siendo el mismo... */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: #333;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+        h1 {
+            margin: 0;
+        }
+        .menu-btn {
+            background-color: #333;
+            color: white;
+            padding: 10px;
+            position: fixed;
+            top: 10px;
+            left: 10px;
+            cursor: pointer;
+            z-index: 1000;
+            border: none;
+            font-size: 18px;
+        }
+        .cart-btn {
+            background-color: #333;
+            color: white;
+            padding: 10px;
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            cursor: pointer;
+            z-index: 1000;
+            border: none;
+            font-size: 18px;
+        }
+        .cart-badge {
+            background-color: red;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 50%;
+            font-size: 16px;
+            position: absolute;
+            top: 10px;
+            right: 35px;
+        }
+        section {
+            padding: 20px;
+            margin: 10px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin-top: 50px;
+        }
+        .product {
+            display: inline-block;
+            width: 48%;
+            margin: 10px;
+            text-align: center;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .product img {
+            width: 100%;
+            height: auto;
+            border-radius: 8px 8px 0 0;
+        }
+        .product h3 {
+            color: #333;
+            padding: 10px 0;
+            margin: 0;
+        }
+        .product p {
+            color: #777;
+            padding: 0 10px;
+        }
+        .product-buttons {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px;
+        }
+        .product-buttons button {
+            width: 48%;
+            background-color: #333;
+            color: white;
+            border: none;
+            padding: 10px;
+            cursor: pointer;
+            border-radius: 8px;
+        }
     </style>
 </head>
 <body>
 
     <button class="menu-btn" onclick="toggleMenu()">Menú</button>
     <button class="cart-btn" onclick="goToCart()">🛒 <span id="cart-count" class="cart-badge">0</span></button>
-
-    <div class="menu" id="menu">
-        <a href="carrito.html">
-            <span>🛒</span> Carrito
-        </a>
-        <a href="#personalizadas">
-            <span>❤️</span> Personalizadas
-        </a>
-        <a href="#perfil">
-            <span>👤</span> Perfil
-        </a>
-        <a href="#favoritos">
-            <span>⭐</span> Favoritos
-        </a>
-    </div>
 
     <section id="inicio">
         <header>
@@ -55,53 +133,27 @@
 
     <script>
         let cartCount = 0;
-        let cartItems = [];
 
-        function toggleMenu() {
-            const menu = document.getElementById("menu");
-            menu.classList.toggle("active");
-        }
+        // Actualiza el contador del carrito al cargar la página
+        window.onload = function() {
+            const storedCount = localStorage.getItem("cartCount");
+            if (storedCount) {
+                cartCount = parseInt(storedCount);
+                document.getElementById("cart-count").textContent = cartCount;
+            }
+        };
 
+        // Añadir productos al carrito
         function addToCart(product) {
             cartCount++;
-            cartItems.push(product);
             document.getElementById("cart-count").textContent = cartCount;
-            localStorage.setItem('cartItems', JSON.stringify(cartItems));
+            localStorage.setItem("cartCount", cartCount);
         }
 
+        // Ir a la página del carrito
         function goToCart() {
             window.location.href = "carrito.html";
         }
-
-        // Función para cargar los productos del carrito al acceder a la página carrito.html
-        window.onload = function() {
-            if (window.location.pathname.includes("carrito.html")) {
-                loadCartItems();
-            }
-        }
-
-        function loadCartItems() {
-            const savedItems = JSON.parse(localStorage.getItem('cartItems')) || [];
-            const cartList = document.createElement('ul');
-            
-            savedItems.forEach(item => {
-                const listItem = document.createElement('li');
-                listItem.textContent = item;
-                cartList.appendChild(listItem);
-            });
-
-            document.body.appendChild(cartList);
-        }
-
-        window.addEventListener("click", function(event) {
-            const menu = document.getElementById("menu");
-            const menuButton = document.querySelector(".menu-btn");
-            const cartButton = document.querySelector(".cart-btn");
-
-            if (!menu.contains(event.target) && !menuButton.contains(event.target) && !cartButton.contains(event.target)) {
-                menu.classList.remove("active");
-            }
-        });
     </script>
 
 </body>
