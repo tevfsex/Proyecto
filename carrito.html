@@ -178,15 +178,8 @@
     </div>
 
     <script>
-        // Simulando los productos añadidos al carrito
-        const cart = [
-            {
-                name: "Camisa Blanca Personalizada",
-                price: 89.99,
-                img: "https://raw.githubusercontent.com/tevfsex/Proyecto/refs/heads/main/Blanca002_001_1.jpg",
-                description: "¡Elige tu diseño! Personaliza con corazones, nombres y más."
-            }
-        ];
+        // Obtener el carrito del localStorage, si no existe, iniciar con un carrito vacío
+        let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
         // Función para renderizar el carrito
         function renderCart() {
@@ -219,7 +212,15 @@
         // Función para eliminar un producto del carrito
         function removeItem(index) {
             cart.splice(index, 1);
+            localStorage.setItem("cart", JSON.stringify(cart)); // Guardar el carrito actualizado
             renderCart(); // Vuelve a renderizar el carrito después de eliminar un item
+        }
+
+        // Función para agregar un producto al carrito
+        function addToCart(product) {
+            cart.push(product);
+            localStorage.setItem("cart", JSON.stringify(cart)); // Guardar el carrito actualizado
+            renderCart(); // Vuelve a renderizar el carrito después de agregar un item
         }
 
         // Llamada inicial para mostrar el carrito
@@ -235,6 +236,10 @@
         function redirectToHome() {
             window.location.href = "index.html"; // Redirige al home (index.html)
         }
+
+        // Si estás en el home, puedes añadir productos al carrito
+        // Ejemplo de cómo añadir algo desde el home (esto debe ir en el home, en el archivo index.html):
+        // addToCart({name: "Camisa Roja", price: 89.99, img: "imagen-url", description: "Descripción"});
     </script>
 
 </body>
